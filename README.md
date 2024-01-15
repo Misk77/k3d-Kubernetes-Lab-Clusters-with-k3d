@@ -13,25 +13,28 @@ E.g
 Will give us 3 masters and 3 workers nodes  
 But we can also adding custom node with node name of our choice  
 
-SO we can do like: ( just to simulate a prod env - for fun)
-CREATE CLUSTER AND NODES
-> k3d cluster create --servers 3 --agents 5 k3d-cluster --port '8080:80@loadbalancer'
-3 master, 3 workers, 1 infra, 1 monitor
-Using load-balancer in this example:
-disable Traefik, you can add the -p "8080:80@loadbalancer" flag when creating the cluster. This will expose the load balancer on port 8080 of the host machine.
-When we create a tunnel from host machine to load balancer with port-forward
-If we want to add a node
+So we can do like: ( just to simulate a prod like env - for fun)  
+CREATE CLUSTER AND NODES  
+> k3d cluster create --servers 3 --agents 5 k3d-cluster --port '8080:80@loadbalancer'    
+3 master, 3 workers, 1 infra, 1 monitor    
+Using load-balancer in this example:    
+disable Traefik, you can add the -p "8080:80@loadbalancer" flag when creating the cluster.   
+This will expose the load balancer on port 8080 of the host machine.  
+When we create a tunnel from host machine to load balancer with port-forward  
+
+If we want to add a node  
 > k3d node create nodeName -c k3d-cluster
 -c for cluster string name and this will bind the nodes to that cluster
 For deleting a node:
- K3d and kubectl is operating on two diff layers
-K3d on ked discovery
-Kubectl on kubectl discovery
-So we need to any order for proper deletion
-1. > k3d node delete k3d-nodeName-0
-Kubectl will see this node as NotReady
-2. > kubectl delete nodes k3d-nodename-0
-K3d will see this node as running
+ 
+K3d and kubectl is operating on two diff layers  
+K3d on ked discovery  
+Kubectl on kubectl discovery  
+So we need to any order for proper deletion  
+1. > k3d node delete k3d-nodeName-0  
+Kubectl will see this node as NotReady  
+2. > kubectl delete nodes k3d-nodename-0  
+K3d will see this node as running  
 
 
 ROLE LABELS NODES:
@@ -66,10 +69,11 @@ And when create a ingress.networking.k8s.io by file +apply -f
 
 
 
-CLEAN UP:
-> k3d cluster delete master
-> docker rm $(docker ps -aq) - this will rm all containers
-> docker rmi $(docker images -q) - this will remove all unreferenced images
+CLEAN UP:  
+> k3d cluster delete master  
+> docker rm $(docker ps -aq) - this will rm all containers  
+> docker rmi $(docker images -q) - this will remove all unreferenced images  
+
 
 
 
